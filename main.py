@@ -26,16 +26,18 @@ async def start(bot, message):
 
 @bughunter0.on_message(filters.command(["tts"]))
 async def tts(bot, message):
-     try:
-         text = str(message.reply_to_message.text)
-         language = 'en'
-         tts_file = gTTS(text=text, lang=language, slow=False) 
-         tts_file.save(f"{message.chat.id}.mp3") 
-         chat_id = str(message.chat.id)
-         with open(f"{message.chat.id}.mp3", "rb") as speech:
-              await bot.send_audio(chat_id, speech)
-         os.remove(tts_file)
-     except Exception as error:
-            print (Error)
+  def progress(current, total):
+    print(f"{current * 100 / total:.1f}%")
+  try:
+      text = str(message.reply_to_message.text)
+      language = 'en'
+      tts_file = gTTS(text=text, lang=language, slow=False) 
+      tts_file.save(f"{message.chat.id}.mp3") 
+      chat_id = str(message.chat.id)
+      with open(f"{message.chat.id}.mp3", "rb") as speech:
+           await bot.send_audio(chat_id, speech)
+      os.remove(tts_file)
+  except Exception as error:
+       print (Error)
 
 bughunter0.run()
