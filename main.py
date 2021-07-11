@@ -20,13 +20,13 @@ bughunter0 = Client(
     api_hash = os.environ["API_HASH"]
 )
 
-# @bughunter0.on_message(filters.command(["start"]))
-# async def start(bot, message):
-#   await message.reply_text("ചത്തൊന്ന് അറിയാൻ വന്നതാ ല്ലേ.... !!")
+@bughunter0.on_message(filters.command(["start"]))
+async def start(bot, message):
+   await message.reply_text("ചത്തൊന്ന് അറിയാൻ വന്നതാ ല്ലേ.... !!")
 
 @bughunter0.on_message(filters.command(["tts"]))
- async def tts(bot, message) 
-   #  try:
+async def tts(bot, message) 
+     try:
          text = str(message.reply_to_message.text)
          language = 'en'
          tts_file = gTTS(text=text, lang=language, slow=False) 
