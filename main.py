@@ -26,11 +26,9 @@ async def start(bot, message):
 
 @bughunter0.on_message(filters.command(["tts"]))
 async def tts(bot, message):
-  def progress(current, total):
-    print(f"{current * 100 / total:.1f}%")
   try:
       text = str(message.reply_to_message.text)
-      language = 'en'
+      language = 'en-in'
       tts_file = gTTS(text=text, lang=language, slow=False) 
       tts_file.save(f"{message.chat.id}.mp3") 
       chat_id = str(message.chat.id)
