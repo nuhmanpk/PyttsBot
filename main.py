@@ -33,7 +33,7 @@ async def tts(bot, message):
       tts_file.save(f"{message.chat.id}.mp3") 
       chat_id = str(message.chat.id)
       with open(f"{message.chat.id}.mp3", "rb") as speech:
-           await bot.send_audio(chat_id, speech, progress=progress)
+           await bot.send_audio(chat_id, speech, caption="@BugHunterBots")
       os.remove(tts_file)
   except Exception as error:
        print (error)
