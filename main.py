@@ -25,8 +25,8 @@ async def start(bot, message):
    await message.reply_text("ചത്തൊന്ന് അറിയാൻ വന്നതാ ല്ലേ.... !!")
 
 @bughunter0.on_message(filters.command(["tts"]))
-  async def tts (bot, message) 
-     try:
+async def tts(bot, message) 
+   #  try:
          text = str(message.reply_to_message.text)
          language = 'en'
          tts_file = gTTS(text=text, lang=language, slow=False) 
@@ -35,9 +35,7 @@ async def start(bot, message):
          with open(f"{message.chat.id}.mp3", "rb") as speech:
               await bot.send_audio(chat_id, speech)
          os.remove(tts_file)
-
-
-     except Exception as error:
-         print (Error)
+  #   except Exception as error:
+   #        print (Error)
 
 bughunter0.run()
