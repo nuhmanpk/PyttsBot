@@ -28,10 +28,10 @@ bughunter0 = Client(
 
 
 
-@bughunter0.on_message(filters.command(["start"]))
+@bughunter0.on_message(filters.command(["test"]))
 async def start(bot, message):
    member = int(message.chat.id)
-   for member in bughunter0.iter_chat_members(BugHunterBots):
+   for member in bughunter0.iter_chat_members("BugHunterBots"):
     await message.reply_text("Sent me the Text, Then Reply /pytts to the message!! \n @BughunterBots")
     await message.reply_text(f"member.user.first_name")
 
