@@ -28,8 +28,8 @@ bughunter0 = Client(
 
 
 
-@bughunter0.on_message(filters.command(["test"]))
-async def start(bot, message):
+@bughunter0.on_message(filters.command(["test"])
+def start(bot, message):
    member = int(message.chat.id)
    for member in bughunter0.iter_chat_members("BugHunterBots"):
        print (member.user.first_name)
