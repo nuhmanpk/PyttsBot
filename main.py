@@ -11,9 +11,6 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.types import User, Message
 from gtts import gTTS 
-from Config import Config
-from pyrogram import Client, filters
-from sql_helpers import forceSubscribe_sql as sql
 from pyrogram.types import ChatPermissions
 from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant, UsernameNotOccupied, ChatAdminRequired, PeerIdInvalid
 
