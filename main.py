@@ -14,7 +14,7 @@ from pyrogram.types import User, Message
 from gtts import gTTS 
     
 bughunter0 = Client(
-    "Pyrogram-tts-Bot",
+    "PyttsBot",
     bot_token = os.environ["BOT_TOKEN"],
     api_id = int(os.environ["API_ID"]),
     api_hash = os.environ["API_HASH"]
@@ -28,6 +28,7 @@ async def start(bot, message):
 async def tts(bot, message):
   try:
       text = str(message.reply_to_message.text)
+      # change Language from here
       language = 'en-in'  # 'en': ['en-us', 'en-ca', 'en-uk', 'en-gb', 'en-au', 'en-gh', 'en-in',
                           # 'en-ie', 'en-nz', 'en-ng', 'en-ph', 'en-za', 'en-tz'],
       tts_file = gTTS(text=text, lang=language, slow=False) 
