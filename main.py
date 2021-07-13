@@ -30,7 +30,7 @@ async def tts(bot, message):
       if message.reply_to_message is None:
             await message.reply_text("Please use /pytts as a Reply to a Text")
       else :
-            if message.text:
+            if message.reply_to_message.text:
                   text = str(message.reply_to_message.text)
                 # change Language from here
                   language = 'en-in'  # 'en': ['en-us', 'en-ca', 'en-uk', 'en-gb', 'en-au', 'en-gh', 'en-in',
