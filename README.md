@@ -26,6 +26,4 @@ Run python 3 main.py
 <A href="https://github.com/bughunter0"><img src="https://img.shields.io/github/last-commit/bughunter0/PyttsBot?style=for-the-badge://" alt=commit> 
 
 
-# Contributions are welcome
 
-Fork , Contribute , Pull Request 
