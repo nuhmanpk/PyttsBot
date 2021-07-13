@@ -27,7 +27,7 @@ async def start(bot, message):
 @bughunter0.on_message(filters.command(["pytts"]))
 async def tts(bot, message):
   try:
-      if message.reply_to_message is False :
+      if message.reply_to_message is None:
             await message.reply_text("Please use /pytts as a Reply to a Text")
       else :
             text = str(message.reply_to_message.text)
@@ -41,6 +41,6 @@ async def tts(bot, message):
                       await bot.send_voice(chat_id, speech, caption ="@BugHunterBots")
   except Exception as error:
        print (error)
-       await bot.reply_text("Oops Something Bad occurred!!")
+       await message.reply_text("Oops Something Bad occurred!!")
 
 bughunter0.run()
