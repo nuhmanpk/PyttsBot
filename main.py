@@ -22,9 +22,9 @@ bughunter0 = Client(
 
 @bughunter0.on_message(filters.command(["start"]))
 async def start(bot, message):
-   await message.reply_text("ചത്തൊന്ന് അറിയാൻ വന്നതാ ല്ലേ.... !!")
+   await message.reply_text("Sent me the Text, Then Reply /pytts to the message!! \n @BughunterBots")
 
-@bughunter0.on_message(filters.command(["tts"]))
+@bughunter0.on_message(filters.command(["pytts"]))
 async def tts(bot, message):
   try:
       text = str(message.reply_to_message.text)
@@ -36,7 +36,6 @@ async def tts(bot, message):
       chat_id = str(message.chat.id)
       with open(f"{message.chat.id}.mp3", "rb") as speech:
            await bot.send_voice(chat_id, speech, caption ="@BugHunterBots")
-      os.remove(f"{message.chat.id}.mp3")
   except Exception as error:
        print (error)
 
