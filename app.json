@@ -1,6 +1,7 @@
 {
-    "name": "SpeedTestBot",
+    "name": "PyttsBot",
     "description": "A Modular telegram bot.",
+    "logo": "https://telegra.ph/file/25c3e3246dee8df0cc91c.jpg",
     "repository": "https://github.com/BugHunterCodeLabs",
     "keywords": [
        
