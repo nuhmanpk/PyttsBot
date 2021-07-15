@@ -34,7 +34,7 @@ async def tts(bot, message):
                               # 'en-ie', 'en-nz', 'en-ng', 'en-ph', 'en-za', 'en-tz'],
           tts_file = gTTS(text=text, lang=language, slow=False) 
           tts_file.save(f"{message.chat.id}.mp3") 
-          tx = await bot.send_message("Converting to Voice...")
+          tx = await bot.send_message(text="Converting to Voice...")
           chat_id = str(message.chat.id)
           with open(f"{message.chat.id}.mp3", "rb") as speech:
                 await bot.send_voice(chat_id, speech, caption ="@BugHunterBots")
