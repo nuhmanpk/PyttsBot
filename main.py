@@ -22,7 +22,7 @@ bughunter0 = Client(
 
 @bughunter0.on_message(filters.command(["start"]))
 async def start(bot, message):
-   await message.reply_text("Hi, Sent Me a The message for Converting to Speech \n\n @BughunterBots")
+   await message.reply_text("Sent / Forward The message for Converting to Speech \n\n @BughunterBots")
 
 @bughunter0.on_message((filters.text | filters.forwarded | filters.reply) & filters.private)
 async def tts(bot, message):
