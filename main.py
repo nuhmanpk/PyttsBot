@@ -27,7 +27,7 @@ async def start(bot, message):
 @bughunter0.on_message((filters.text | filters.forwarded | filters.reply) & filters.private)
 async def tts(bot, message):
   try:
-       if message.reply_to_message.text:
+       if message.text:
           text = str(message.text)
         # change Language from here
           language = 'en-in'  # 'en': ['en-us', 'en-ca', 'en-uk', 'en-gb', 'en-au', 'en-gh', 'en-in',
