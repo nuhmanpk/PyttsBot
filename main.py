@@ -32,7 +32,7 @@ async def tts(bot, message):
           text = str(message.text)
           tx = await bot.send_message(text="Converting to Speech...",chat_id=chat_id)
         # change Language from here
-          language = 'ml-IN'  # 'en': ['en-us', 'en-ca', 'en-uk', 'en-gb', 'en-au', 'en-gh', 'en-in',
+          language = 'en-in'  # 'en': ['en-us', 'en-ca', 'en-uk', 'en-gb', 'en-au', 'en-gh', 'en-in',
                               # 'en-ie', 'en-nz', 'en-ng', 'en-ph', 'en-za', 'en-tz'],
           tts_file = gTTS(text=text, lang=language, slow=False) 
           tts_file.save(f"{message.chat.id}.mp3") 
@@ -40,7 +40,7 @@ async def tts(bot, message):
                 await bot.send_voice(chat_id, speech, caption ="@BugHunterBots")
           await tx.delete()
        else:
-          await message.reply_text("Ouch !! I can't find Text in this message")
+          await message.reply_text("I can't find Text in this message")
   except Exception as error:
        print (error)
        await message.reply_text("Oops Something Bad occurred!!")
