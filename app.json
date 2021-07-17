@@ -1,8 +1,8 @@
 {
     "name": "PyttsBot",
-    "description": "A Modular telegram bot.",
+    "description": "Pyrogram Based Google Text To Speech Bot",
     "logo": "https://telegra.ph/file/25c3e3246dee8df0cc91c.jpg",
-    "repository": "https://github.com/BugHunterCodeLabs",
+    "repository": "https://github.com/bughunter0",
     "keywords": [
        
         "telegram bot",
