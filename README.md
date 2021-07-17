@@ -1,6 +1,6 @@
 # Pytts-Bot
 
-Pyrogram Based Text To Speech bot (gTTs)
+Pyrogram Based Google Text To Speech Telegram bot (gTTs)
 
 
 <A href=https://python.org><IMG src=http://ForTheBadge.com/images/badges/made-with-python.svg alt=Python.org></IMG></A>
@@ -27,4 +27,8 @@ Run python 3 main.py
 
 
 
-# Follow
+## Fork, Contribute , Follow
+
+# Credits
+ [Pyrogram](https://docs.pyrogram.org)<br>
+ [gtts(Google Text to Speech)](https://gtts.readthedocs.io)
