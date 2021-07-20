@@ -20,9 +20,64 @@ bughunter0 = Client(
     api_hash = os.environ["API_HASH"]
 )
 
-@bughunter0.on_message(filters.command(["start"]))
-async def start(bot, message):
-   await message.reply_text("Sent / Forward The message for Converting to Speech \n\n @BughunterBots")
+START_STR = """
+Hi **{}**, I'm PyDF Bot. I can Provide all Help regarding PDF file
+"""
+ABOUT = """
+**BOT:** `PYTTS BOT`
+**AUTHOR :** [bughunter0](https://t.me/bughunter0)
+**SERVER :** `Heroku`
+**LIBRARY :** `Pyrogram`
+**SOURCE :** [BugHunterBots](https://t.me/bughunterbots)
+**LANGUAGE :** `Python 3.9`
+"""
+HELP = """
+Send / Forward me a text / message to convert it to Speech\n Or Send me an emoji to Return it as Speech
+"""
+START_BUTTON = InlineKeyboardMarkup(
+        [[
+        InlineKeyboardButton('ABOUT',callback_data='cbabout'),
+        InlineKeyboardButton('HELP',callback_data='cbhelp')
+        ],
+        [
+        InlineKeyboardButton('↗ Join Here ↗', url='https://t.me/BughunterBots'),
+        ]]
+        
+    )
+CLOSE_BUTTON = InlineKeyboardMarkup(
+        [[
+        InlineKeyboardButton('Back',callback_data='cbclose'),
+        ]]
+    )
+
+@bughunter0.on_callback_query() # callbackQuery()
+async def cb_data(bot, update):  
+    if update.data == "cbhelp":
+        await update.message.edit_text(
+            text=HELP,
+            reply_markup=CLOSE_BUTTON,
+            disable_web_page_preview=True
+        )
+    elif update.data == "cbabout":
+        await update.message.edit_text(
+            text=ABOUT,
+            reply_markup=CLOSE_BUTTON,
+            disable_web_page_preview=True
+        )
+    else:
+        await update.message.edit_text(
+            text=START_STR.format(update.from_user.mention),
+            disable_web_page_preview=True,
+            reply_markup=START_BUTTON
+        )
+
+@bughunter0.on_message(filters.command(["start"])) # StartCommand
+async def start(bot, update):
+     await update.reply_text(
+        text=START_STR.format(update.from_user.mention),
+        disable_web_page_preview=True,
+        reply_markup=START_BUTTON
+    )
 
 @bughunter0.on_message((filters.text | filters.forwarded | filters.reply) & filters.private)
 async def tts(bot, message):
