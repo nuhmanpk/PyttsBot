@@ -21,7 +21,7 @@ bughunter0 = Client(
 )
 
 START_STR = """
-Hi **{}**, I'm PyDF Bot. I can Provide all Help regarding PDF file
+Hi **{}**, I'm PyTTs Bot. I can convert text into speech
 """
 ABOUT = """
 **BOT:** `PYTTS BOT`
