@@ -17,7 +17,11 @@
         },
         "API_HASH": {
             "description": "Your API_HASH from https://my.telegram.org/apps"
-        }
+        },
+        "DATABASE_URL": {
+      "description": "Your MongoDB URL for Database. Ask in Support Group: https://t.me/linux_repo",
+      "value": "",
+      "required": true
     },
     "buildpacks": [
         {
