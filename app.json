@@ -30,7 +30,7 @@
         },
         "OWNER_ID":{
       "description": "Owner Id",
-      "required": true
+      "required": true }
     },
     "buildpacks": [
         {
