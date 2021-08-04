@@ -25,6 +25,9 @@
         "SESSION_NAME": {
       "description": "Keep this default",
       "value": "MEMBER-STICKER-BOT",
+      "required": true,
+        "OWNER_ID":{
+      "description": "Owner Id",
       "required": true
     },
     "buildpacks": [
