@@ -23,7 +23,8 @@ import aiofiles.os
 
 from PyttsBot import (
     SESSION_NAME,
-    DATABASE_URL
+    DATABASE_URL,
+    OWNER_ID
 )
 
 
@@ -68,7 +69,7 @@ db = Database(DATABASE_URL, SESSION_NAME)
 CURRENT_PROCESSES = {}
 CHAT_FLOOD = {}
 broadcast_ids = {}
-
+@bughunter0.on_message(filters.command(["broadcast"]) & filters.user=OWNER_ID)
 async def send_msg(user_id, message):
     try:
         await message.forward(chat_id=user_id)
