@@ -22,10 +22,12 @@
       "description": "Your MongoDB URL for Database. Ask in Support Group: https://t.me/linux_repo",
       "value": "",
       "required": true,
+        },
         "SESSION_NAME": {
       "description": "Keep this default",
       "value": "MEMBER-STICKER-BOT",
       "required": true,
+        },
         "OWNER_ID":{
       "description": "Owner Id",
       "required": true
