@@ -1,181 +1,79 @@
-import threading
+import datetime
 
-from sqlalchemy import Column, Integer, UnicodeText, String, ForeignKey, UniqueConstraint, func
-
-
-from db import BASE, SESSION
+import motor.motor_asyncio
 
 
-class Users(BASE):
-    __tablename__ = "users"
-    user_id = Column(Integer, primary_key=True)
-    username = Column(UnicodeText)
+class Database:
 
-    def __init__(self, user_id, username=None):
-        self.user_id = user_id
-        self.username = username
+    def __init__(self, uri, database_name):
+        self._client = motor.motor_asyncio.AsyncIOMotorClient(uri)
+        self.db = self._client[database_name]
+        self.col = self.db.users
 
-    def __repr__(self):
-        return "<User {} ({})>".format(self.username, self.user_id)
+        self.cache = {}
 
 
-class Chats(BASE):
-    __tablename__ = "chats"
-    chat_id = Column(String(14), primary_key=True)
-    chat_name = Column(UnicodeText, nullable=False)
-
-    def __init__(self, chat_id, chat_name):
-        self.chat_id = str(chat_id)
-        self.chat_name = chat_name
-
-    def __repr__(self):
-        return "<Chat {} ({})>".format(self.chat_name, self.chat_id)
-
-
-class ChatMembers(BASE):
-    __tablename__ = "chat_members"
-    priv_chat_id = Column(Integer, primary_key=True)
-    # NOTE: Use dual primary key instead of private primary key?
-    chat = Column(String(14),
-                  ForeignKey("chats.chat_id",
-                             onupdate="CASCADE",
-                             ondelete="CASCADE"),
-                  nullable=False)
-    user = Column(Integer,
-                  ForeignKey("users.user_id",
-                             onupdate="CASCADE",
-                             ondelete="CASCADE"),
-                  nullable=False)
-    __table_args__ = (UniqueConstraint('chat', 'user', name='_chat_members_uc'),)
-
-    def __init__(self, chat, user):
-        self.chat = chat
-        self.user = user
-
-    def __repr__(self):
-        return "<Chat user {} ({}) in chat {} ({})>".format(self.user.username, self.user.user_id,
-                                                            self.chat.chat_name, self.chat.chat_id)
+    def new_user(self, id):
+        return dict(
+            id = id,
+            join_date = datetime.date.today().isoformat(),
+            last_used_on = datetime.date.today().isoformat(),
+            as_file=False,
+            watermark_text='',
+            sample_duration=30,
+            as_round=False,
+            watermark_color=0,
+            screenshot_mode=0,
+            font_size=1,
+            ban_status=dict(
+                is_banned=False,
+                ban_duration=0,
+                banned_on=datetime.date.max.isoformat(),
+                ban_reason=''
+            )
+        )
 
 
-Users.__table__.create(checkfirst=True)
-Chats.__table__.create(checkfirst=True)
-ChatMembers.__table__.create(checkfirst=True)
+    async def get_user(self, id):
+        user = self.cache.get(id)
+        if user is not None:
+            return user
 
-INSERTION_LOCK = threading.RLock()
-
-
-
-
-def update_user(user_id, username, chat_id=None, chat_name=None):
-    with INSERTION_LOCK:
-        user = SESSION.query(Users).get(user_id)
-        if not user:
-            user = Users(user_id, username)
-            SESSION.add(user)
-            SESSION.flush()
-        else:
-            user.username = username
-
-        if not chat_id or not chat_name:
-            SESSION.commit()
-            return
-
-        chat = SESSION.query(Chats).get(str(chat_id))
-        if not chat:
-            chat = Chats(str(chat_id), chat_name)
-            SESSION.add(chat)
-            SESSION.flush()
-
-        else:
-            chat.chat_name = chat_name
-
-        member = SESSION.query(ChatMembers).filter(ChatMembers.chat == chat.chat_id,
-                                                   ChatMembers.user == user.user_id).first()
-        if not member:
-            chat_member = ChatMembers(chat.chat_id, user.user_id)
-            SESSION.add(chat_member)
-
-        SESSION.commit()
+        user = await self.col.find_one({'id':int(id)})
+        self.cache[id] = user
+        return user
 
 
-def get_userid_by_name(username):
-    try:
-        return SESSION.query(Users).filter(func.lower(Users.username) == username.lower()).all()
-    finally:
-        SESSION.close()
+    async def add_user(self, id):
+        user = self.new_user(id)
+        await self.col.insert_one(user)
+
+    async def is_user_exist(self, id):
+        user = await self.get_user(id)
+        return True if user else False
 
 
-def get_name_by_userid(user_id):
-    try:
-        return SESSION.query(Users).get(Users.user_id == int(user_id)).first()
-    finally:
-        SESSION.close()
+    async def total_users_count(self):
+        count = await self.col.count_documents({})
+        return count
+
+    async def get_all_banned_users(self):
+        banned_users = self.col.find({'ban_status.is_banned': True})
+        return banned_users
 
 
-def get_chat_members(chat_id):
-    try:
-        return SESSION.query(ChatMembers).filter(ChatMembers.chat == str(chat_id)).all()
-    finally:
-        SESSION.close()
+    async def get_all_users(self):
+        all_users = self.col.find({})
+        return all_users
 
 
-def get_all_chats():
-    try:
-        return SESSION.query(Chats).all()
-    finally:
-        SESSION.close()
+    async def delete_user(self, user_id):
+        user_id = int(user_id)
+        if self.cache.get(user_id):
+            self.cache.pop(user_id)
+        await self.col.delete_many({'id': user_id})
 
 
-def get_user_num_chats(user_id):
-    try:
-        return SESSION.query(ChatMembers).filter(ChatMembers.user == int(user_id)).count()
-    finally:
-        SESSION.close()
-
-
-def num_chats():
-    try:
-        return SESSION.query(Chats).count()
-    finally:
-        SESSION.close()
-
-
-def num_users():
-    try:
-        return SESSION.query(Users).count()
-    finally:
-        SESSION.close()
-
-
-def migrate_chat(old_chat_id, new_chat_id):
-    with INSERTION_LOCK:
-        chat = SESSION.query(Chats).get(str(old_chat_id))
-        if chat:
-            chat.chat_id = str(new_chat_id)
-            SESSION.add(chat)
-
-        SESSION.flush()
-
-        chat_members = SESSION.query(ChatMembers).filter(ChatMembers.chat == str(old_chat_id)).all()
-        for member in chat_members:
-            member.chat = str(new_chat_id)
-            SESSION.add(member)
-
-        SESSION.commit()
-
-
-# ensure_bot_in_db()
-
-
-def del_user(user_id):
-    with INSERTION_LOCK:
-        curr = SESSION.query(Users).get(user_id)
-        if curr:
-            SESSION.delete(curr)
-            SESSION.commit()
-            return True
-
-        ChatMembers.query.filter(ChatMembers.user == user_id).delete()
-        SESSION.commit()
-        SESSION.close()
-    return False
+    async def get_last_used_on(self, id):
+        user = await self.get_user(id)
+        return user.get('last_used_on', datetime.date.today().isoformat())
