@@ -16,6 +16,12 @@ from pyrogram.errors import FloodWait, InputUserDeactivated, UserIsBlocked, Peer
 
 SESSION_NAME = os.environ.get('SESSION_NAME', ':memory:')
 DATABASE_URL = os.environ.get('DATABASE_URL')
+bughunter0 = Client(
+    "PyttsBot",
+    bot_token = os.environ["BOT_TOKEN"],
+    api_id = int(os.environ["API_ID"]),
+    api_hash = os.environ["API_HASH"]
+)
 
 
 
@@ -121,12 +127,6 @@ async def broadcast_(c, m):
             quote=True
         )
 
-bughunter0 = Client(
-    "PyttsBot",
-    bot_token = os.environ["BOT_TOKEN"],
-    api_id = int(os.environ["API_ID"]),
-    api_hash = os.environ["API_HASH"]
-)
 
 
 START_STR = """
