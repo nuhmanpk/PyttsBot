@@ -64,11 +64,6 @@ ChatMembers.__table__.create(checkfirst=True)
 INSERTION_LOCK = threading.RLock()
 
 
-def ensure_bot_in_db():
-    with INSERTION_LOCK:
-        bot = Users(dispatcher.bot.id, dispatcher.bot.username)
-        SESSION.merge(bot)
-        SESSION.commit()
 
 
 def update_user(user_id, username, chat_id=None, chat_name=None):
