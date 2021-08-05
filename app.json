@@ -18,10 +18,20 @@
         "API_HASH": {
             "description": "Your API_HASH from https://my.telegram.org/apps"
         },
-        "OWNER_ID":{
-      "description": "Owner Id",
-      "required": true 
-        }
+        "SESSION_NAME": {
+
+      "description": "Name you want to call your bot's session, Eg: bot username.",
+
+      "value": "@Testforscreenshotbot"
+
+    },
+     "DATABASE_URL": {
+
+      "description": "Mongodb database URI from https://cloud.mongodb.com/",
+
+      "value": ""
+
+    }
     },
     "buildpacks": [
         {
