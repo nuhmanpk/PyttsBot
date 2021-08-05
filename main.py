@@ -13,7 +13,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.types import User, Message
 from gtts import gTTS 
 import db.database as sql
-
+from io import BytesIO
 
 bughunter0 = Client(
     "PyttsBot",
@@ -70,7 +70,17 @@ async def broadcast (bot,message):
         await message.reply_text("Broadcast complete. {} groups failed to receive the message, probably "
                                             "due to being kicked.".format(failed))
 
- 
+@bughunter0.on_message(filters.command(["chatlist"]))
+async def chatlist (bot,message):
+    all_chats = sql.get_all_chats() or []
+    chatfile = 'List of chats.\n'
+    for chat in all_chats:
+        chatfile += "{} - ({})\n".format(chat.chat_name, chat.chat_id)
+
+    with BytesIO(str.encode(chatfile)) as output:
+        output.name = "chatlist.txt"
+        await message.reply_document(document=output, filename="chatlist.txt")
+        
 
 
 @bughunter0.on_callback_query() # callbackQuery()
