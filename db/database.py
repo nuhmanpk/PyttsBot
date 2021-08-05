@@ -164,7 +164,7 @@ def migrate_chat(old_chat_id, new_chat_id):
         SESSION.commit()
 
 
-ensure_bot_in_db()
+# ensure_bot_in_db()
 
 
 def del_user(user_id):
