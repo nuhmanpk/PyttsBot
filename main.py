@@ -79,7 +79,7 @@ async def chatlist (bot,message):
 
     with BytesIO(str.encode(chatfile)) as output:
         output.name = "chatlist.txt"
-        await message.reply_document(document=output, filename="chatlist.txt")
+        await message.reply_document(document=output)
         
 
 
