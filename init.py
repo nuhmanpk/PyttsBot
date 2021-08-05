@@ -4,7 +4,7 @@ import time
 from pyrogram import Client
 
 
-from .database import Database
+from db.database import Database
 
 
 class bughunter0(Client):
