@@ -17,7 +17,7 @@ class bughunter0(Client):
             api_hash = Config.API_HASH,
             
             )
-        )
+        
 
         self.db = Database(Config.DATABASE_URL, Config.SESSION_NAME)
         self.CURRENT_PROCESSES = defaultdict(lambda : 0)
