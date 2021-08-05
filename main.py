@@ -42,14 +42,14 @@ async def send_msg(user_id, message):
         return 500, f"{user_id} : {traceback.format_exc()}\n"
 
 @bughunter0.on_message(filters.command(["broadcast"]))
-async def broadcast_(c, m):
-    all_users = await c.db.get_all_users()
+async def broadcast_(bot, m):
+    all_users = await bot.db.get_all_users()
 
     broadcast_msg = m.reply_to_message
 
     while True:
         broadcast_id = ''.join([random.choice(string.ascii_letters) for i in range(3)])
-        if not c.broadcast_ids.get(broadcast_id):
+        if not bot.broadcast_ids.get(broadcast_id):
             break
 
     out = await m.reply_text(
@@ -64,12 +64,12 @@ async def broadcast_(c, m):
         )
     )
     start_time = time.time()
-    total_users = await c.db.total_users_count()
+    total_users = await bot.db.total_users_count()
     done = 0
     failed = 0
     success = 0
 
-    c.broadcast_ids[broadcast_id] = dict(
+    bot.broadcast_ids[broadcast_id] = dict(
         total = total_users,
         current = done,
         failed = failed,
@@ -93,13 +93,13 @@ async def broadcast_(c, m):
             failed += 1
 
         if sts == 400:
-            await c.db.delete_user(user['id'])
+            await bot.db.delete_user(user['id'])
 
         done += 1
-        if c.broadcast_ids.get(broadcast_id) is None:
+        if bot.broadcast_ids.get(broadcast_id) is None:
             break
         else:
-            c.broadcast_ids[broadcast_id].update(
+            bot.broadcast_ids[broadcast_id].update(
                 dict(
                     current = done,
                     failed = failed,
@@ -107,8 +107,8 @@ async def broadcast_(c, m):
                 )
             )
     log_file.write(broadcast_log.encode())
-    if c.broadcast_ids.get(broadcast_id):
-        c.broadcast_ids.pop(broadcast_id)
+    if bot.broadcast_ids.get(broadcast_id):
+        bot.broadcast_ids.pop(broadcast_id)
     completed_in = datetime.timedelta(seconds=int(time.time()-start_time))
 
     await asyncio.sleep(3)
