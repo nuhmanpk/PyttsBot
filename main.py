@@ -61,7 +61,7 @@ async def broadcast (bot,message):
         for chat in chats:
             try:
                 chat_id = chat.chat_id
-                bot.sendMessage(chat_id=chat_id, text=to_send[1])
+                bot.send_message(chat_id=chat_id, text=to_send[1])
                 sleep(0.1)
             except TelegramError:
                 failed += 1
