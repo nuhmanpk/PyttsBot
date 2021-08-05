@@ -14,6 +14,11 @@ from pyrogram.types import User, Message
 from gtts import gTTS 
 from pyrogram.errors import FloodWait, InputUserDeactivated, UserIsBlocked, PeerIdInvalid
 
+SESSION_NAME = os.environ.get('SESSION_NAME', ':memory:')
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+
+
 async def send_msg(user_id, message):
     try:
         await message.forward(chat_id=user_id, as_copy=True)
@@ -122,6 +127,7 @@ bughunter0 = Client(
     api_id = int(os.environ["API_ID"]),
     api_hash = os.environ["API_HASH"]
 )
+
 
 START_STR = """
 Hi **{}**, I'm PyTTs Bot. I can convert text into speech
