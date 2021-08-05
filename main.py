@@ -13,7 +13,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.types import User, Message
 from gtts import gTTS 
 from pyrogram.errors import FloodWait, InputUserDeactivated, UserIsBlocked, PeerIdInvalid
-
+from init import bughunter0
 SESSION_NAME = os.environ.get('SESSION_NAME', ':memory:')
 DATABASE_URL = os.environ.get('DATABASE_URL')
 bughunter0 = Client(
